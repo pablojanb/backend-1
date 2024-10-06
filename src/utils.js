@@ -1,7 +1,6 @@
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import multer from 'multer';
-import fs from 'fs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -25,14 +24,6 @@ export const uploader = multer({
     }
 })
 
-
-
-
-export const getProducts = async () => {
-    const products = await fs.promises.readFile(`${__dirname}/products.json`, 'utf8')
-    const productsObj = JSON.parse(products)
-    return productsObj
-}
 
 export const generateId = (arr) => {
     let id

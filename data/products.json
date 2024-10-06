@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "title": "lespaul",
+    "description": "awsome guitar",
+    "code": "GUIT232",
+    "price": "6000",
+    "stock": "15",
+    "category": "instrument",
+    "status": true,
+    "thumbnails": "C:\\Users\\pablo\\Desktop\\Full Stack\\Backend l\\Entregas\\preEntrega1\\src/public/img/preview.jpg"
+  },
+  {
+    "id": 2,
+    "title": "sg",
+    "description": "pretty awesome guitar",
+    "code": "GUIT232",
+    "price": "6000",
+    "stock": "15",
+    "category": "instrument",
+    "status": true,
+    "thumbnails": "C:\\Users\\pablo\\Desktop\\Full Stack\\Backend l\\Entregas\\preEntrega1\\src/public/img/preview.jpg"
+  },
+  {
+    "id": 3,
+    "title": "sg",
+    "description": "awsome guitar",
+    "code": "GUIT232",
+    "price": "6000",
+    "stock": "15",
+    "category": "instrument",
+    "status": true,
+    "thumbnails": "C:\\Users\\pablo\\Desktop\\Full Stack\\Backend l\\Entregas\\preEntrega1\\src/public/img/preview.jpg"
+  },
+  {
+    "id": 5,
+    "title": "lespaul",
+    "description": "awsome guitar",
+    "code": "GUIT232",
+    "price": "6000",
+    "stock": "15",
+    "category": "instrument",
+    "status": true,
+    "thumbnails": "C:\\Users\\pablo\\Desktop\\Full Stack\\Backend l\\Entregas\\preEntrega1\\src/public/img/preview.jpg"
+  },
+  {
+    "id": 7,
+    "title": "strato",
+    "description": "pretty awesome guitar",
+    "code": "GUIT232",
+    "price": "6000",
+    "stock": "15",
+    "category": "instrument",
+    "status": true,
+    "thumbnails": "C:\\Users\\pablo\\Desktop\\Full Stack\\Backend l\\Entregas\\preEntrega1\\src/public/img/preview.jpg"
+  }
+]

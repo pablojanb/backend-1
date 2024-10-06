@@ -1,72 +1,81 @@
 import { Router } from 'express'
-import fs from 'fs'
-import __dirname from '../utils.js'
 import { uploader } from '../utils.js'
-import { getProducts } from '../utils.js'
-import { generateId } from '../utils.js'
+import ProductManager from '../services/ProductManager.js'
 
 const router = Router()
 
+const prodManager = new ProductManager()
+
 router.get('/', async (req, res) => {
-    const products = await getProducts()
-    res.send(products)
+    try {
+        const limit = parseInt(req.query.limit)
+        const products = await prodManager.getProducts(limit)
+        res.send(products)
+    } catch (err) {
+        console.log(`Error ${err}`)
+    }
 })
 
 router.get('/:pid', async (req, res) => {
-    const products = await getProducts()
-    const product = products.find(prod => prod.id === parseInt(req.params.pid))
-    product && res.send(product)
-    !product && res.status(404).send({ status: 'error', error: 'product not found' })
+    try {
+        const prodId = parseInt(req.params.pid)
+        const product = await prodManager.getProduct(prodId)
+
+        product && res.send(product)
+        !product && res.status(404).send({ status: 'error', error: 'product not found' })
+    } catch (err) {
+        console.log(`Error ${err}`)
+    }
 })
 
 router.post('/', uploader.single('img'), async (req, res) => {
-    const products = await getProducts()
 
-    if (!req.body.title || !req.body.description || !req.body.code || !req.body.price || !req.body.status || !req.body.stock || !req.body.category || !req.file) {
-        return res.status(400).send({ status: 'error', error: 'incomplete data' })
+    try {
+        const { title, description, code, price, stock, category } = req.body
+
+        const img = req.file
+
+        if (!title || !description || !code || !price || !stock || !category || !img) {
+            return res.status(400).send({ status: 'error', error: 'incomplete data' })
+        } else {
+
+            const prodAdded = prodManager.setProduct({ title, description, code, price, stock, category }, img)
+            res.send(prodAdded)
+        }
+    } catch (err) {
+        console.log(`Error: ${err}`)
     }
-
-
-    const product = { id: generateId(products), ...req.body, thumbnails: `${__dirname}/public/img/${req.file.filename}` }
-    products.push(product)
-    fs.promises.writeFile(`${__dirname}/products.json`, JSON.stringify(products, null, 2))
-    res.send({ status: 'succesful', msg: 'product added' })
 
 })
 
 router.put('/:pid', uploader.single('img'), async (req, res) => {
-    const products = await getProducts()
+    
+    try {
+        const productId = parseInt(req.params.pid)
+        const img = req.file
+        const modifiedProduct = req.body
+        const newProduct = prodManager.editProduct(productId, modifiedProduct, img)
 
-
-    const product = products.find(prod => prod.id === parseInt(req.params.pid))
-
-    const productIndex = products.findIndex(prod => prod.id === parseInt(req.params.pid))
-
-    if (productIndex < 0) {
-        return res.status(404).send({ status: 'error', msg: 'product not found' })
+        newProduct && res.send(newProduct)
+        !newProduct && res.send({error: 'product not found'})
+    } catch(err) {
+        console.log(`Error: ${err}`)
     }
 
-    if (req.file) {
-        products[productIndex] = { id: parseInt(req.params.pid), ...product, ...req.body, thumbnails: `${__dirname}/public/img/${req.file.filename}` }
-    } else {
-        products[productIndex] = { id: parseInt(req.params.pid), ...product, ...req.body }
-    }
-
-    fs.promises.writeFile(`${__dirname}/products.json`, JSON.stringify(products, null, 2))
-
-    res.send({ status: 'succesful', msg: 'product updated' })
 })
 
 router.delete('/:pid', async (req, res) => {
-    const products = await getProducts()
-    const neWproducts = products.filter(prod => prod.id !== parseInt(req.params.pid))
 
-    if (products.length === neWproducts.length) {
-        return res.status(404).send({ status: 'error', msg: 'user not found' })
+    try {
+        const prodId = parseInt(req.params.pid)
+        const deletedProd = prodManager.deleteProduct(prodId)
+
+        deletedProd && res.send(deletedProd)
+        !deletedProd && res.status(400).send({error: `product not found`})
+    } catch(err) {
+        console.log(`Error: ${err}`)
     }
 
-    fs.promises.writeFile(`${__dirname}/products.json`, JSON.stringify(neWproducts, null, 2))
-    res.send({ status: 'succesful', msg: 'product deleted' })
 })
 
 export default router
