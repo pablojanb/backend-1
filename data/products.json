@@ -1,24 +1,40 @@
 [
   {
     "id": 1,
-    "title": "strato",
+    "title": "stratocaster",
     "description": "pretty awesome guitar",
-    "code": "GUIT232",
-    "price": "6000",
-    "stock": "15",
+    "code": "GUIT234",
+    "price": 2000,
+    "stock": 23,
     "category": "instrument",
     "status": true,
-    "thumbnails": "C:\\Users\\user\\Desktop\\proyecto\\src/public/img/preview.jpg"
+    "thumbnails": [
+      "C:\\Users\\user\\Desktop\\preEntrega1\\src/public/img/strato.jpg"
+    ]
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "les paul",
     "description": "awesome guitar",
-    "code": "GUIT234",
-    "price": "5000",
-    "stock": "23",
+    "code": "GUIT232",
+    "price": 6000,
+    "stock": 14,
     "category": "instrument",
     "status": true,
-    "thumbnails": "C:\\Users\\user\\Desktop\\proyecto\\src/public/img/preview.jpg"
+    "thumbnails": [
+      "C:\\Users\\user\\Desktop\\preEntrega1\\src/public/img/les-paul.jpg",
+      "C:\\Users\\user\\Desktop\\preEntrega1\\src/public/img/red-les-paul.webp"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "telecaster",
+    "description": "ok guitar",
+    "code": "GUIT230",
+    "price": 3000,
+    "stock": 10,
+    "category": "instrument",
+    "status": true,
+    "thumbnails": []
   }
 ]

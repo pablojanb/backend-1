@@ -22,7 +22,7 @@ router.get('/:pid', async (req, res) => {
         const product = await prodManager.getProduct(prodId)
 
         product && res.send(product)
-        !product && res.status(404).send({ status: 'error', error: 'product not found' })
+        !product && res.status(404).send({error: 'product not found' })
     } catch (err) {
         console.log(`Error ${err}`)
     }
@@ -31,16 +31,18 @@ router.get('/:pid', async (req, res) => {
 router.post('/', uploader.single('img'), async (req, res) => {
 
     try {
-        const { title, description, code, price, stock, category } = req.body
+        let { title, description, code, price, stock, category } = req.body
 
         const img = req.file
 
-        if (!title || !description || !code || !price || !stock || !category || !img) {
-            return res.status(400).send({ status: 'error', error: 'incomplete data' })
+        if (!title || !description || !code || !price || !stock || !category) {
+            return res.status(400).send({error: 'incomplete data' })
         } else {
+            price = parseInt(price)
+            stock = parseInt(stock)
 
-            const prodAdded = prodManager.setProduct({ title, description, code, price, stock, category }, img)
-            res.send(prodAdded)
+            const prodAdded = await prodManager.setProduct({ title, description, code, price, stock, category }, img)
+            res.status(201).send(prodAdded)
         }
     } catch (err) {
         console.log(`Error: ${err}`)
@@ -54,10 +56,10 @@ router.put('/:pid', uploader.single('img'), async (req, res) => {
         const productId = parseInt(req.params.pid)
         const img = req.file
         const modifiedProduct = req.body
-        const newProduct = prodManager.editProduct(productId, modifiedProduct, img)
+        const newProduct = await prodManager.editProduct(productId, modifiedProduct, img)
 
-        newProduct && res.send(newProduct)
-        !newProduct && res.send({error: 'product not found'})
+        newProduct && res.status(201).send(newProduct)
+        !newProduct && res.status(404).send({error: 'product not found'})
     } catch(err) {
         console.log(`Error: ${err}`)
     }
@@ -68,10 +70,10 @@ router.delete('/:pid', async (req, res) => {
 
     try {
         const prodId = parseInt(req.params.pid)
-        const deletedProd = prodManager.deleteProduct(prodId)
+        const deletedProd = await prodManager.deleteProduct(prodId)
 
         deletedProd && res.send(deletedProd)
-        !deletedProd && res.status(400).send({error: `product not found`})
+        !deletedProd && res.status(404).send({error: `product not found`})
     } catch(err) {
         console.log(`Error: ${err}`)
     }

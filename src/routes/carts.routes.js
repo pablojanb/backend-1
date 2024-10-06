@@ -9,7 +9,7 @@ const router = Router()
 router.post('/', async (req, res) => {
     try {
         const newCart = await cartManag.addCart()
-        res.send(newCart)
+        res.status(201).send(newCart)
     } catch(err) {
         console.log(`Error: ${err}`)
     }
@@ -22,7 +22,7 @@ router.get('/:cid', async (req, res) => {
         const cart = await cartManag.getCart(cartId)
         
         cart && res.send(cart)
-        !cart && res.status(404).send({ status: 'error', msg: 'cart not found' })
+        !cart && res.status(404).send({ error: 'cart not found' })
     } catch (err) {
         console.log(`Error: ${err}`)
     }
@@ -36,8 +36,8 @@ router.post('/:cid/product/:pid', async (req, res) => {
 
         const prodAdded = await cartManag.setProductInCart(prodId, cartId)
 
-        prodAdded && res.send(prodAdded)
-        !prodAdded && res.send({error: 'invalid data'})
+        prodAdded && res.status(201).send(prodAdded)
+        !prodAdded && res.status(400).send({error: 'invalid data'})
     } catch(err) {
         console.log(`Error: ${err}`)
     }

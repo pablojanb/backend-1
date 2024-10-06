@@ -8,10 +8,6 @@ const PORT = 8080
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/ping', (req, res)=>{
-    res.send({msg: 'pong'})
-})
-
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 

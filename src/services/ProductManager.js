@@ -37,8 +37,14 @@ export default class ProductManager {
             id: generateId(this.products),
             ...product,
             status: true,
-            thumbnails: `${__dirname}/public/img/${img.filename}`
         }
+
+        if (img) {
+            newProduct.thumbnails = [`${__dirname}/public/img/${img.filename}`]
+        } else {
+            newProduct.thumbnails = []
+        }
+        
         this.products.push(newProduct)
 
         this.setProductsFile()
@@ -63,9 +69,9 @@ export default class ProductManager {
             this.products[productIndex] = {
                 id: id,
                 ...product,
-                ...modifiedProduct,
-                thumbnails: `${__dirname}/public/img/${img.filename}`
+                ...modifiedProduct
             }
+            this.products[productIndex].thumbnails.push(`${__dirname}/public/img/${img.filename}`)
         } else {
             this.products[productIndex] = {
                 id: id,
