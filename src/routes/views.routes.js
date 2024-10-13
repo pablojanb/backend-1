@@ -10,7 +10,7 @@ router.get('/', async(req, res)=>{
 })
 
 router.get('/realtimeproducts', (req, res)=> {
-    res.render('realTimeProducts')
+    res.render('realTimeProducts', {style: 'css/real-time-products.css'})
 })
 
 export default router
