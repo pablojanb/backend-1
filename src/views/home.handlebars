@@ -1,4 +1,13 @@
-
-{{#each products}}
-<div>producto: {{this.title}}</div>
-{{/each}}
+<h2>List of products</h2>
+<div class="product-list">
+    {{#each products}}
+    <div id="product">
+        <h3>{{this.title}}</h3>
+        <p>{{this.description}}</p>
+        <p>Code: {{this.code}}</p>
+        <p>Price: ${{this.price}}</p>
+        <p>Stock: {{this.stock}}</p>
+        <p>Category: {{this.category}}</p>
+    </div>
+    {{/each}}
+</div>

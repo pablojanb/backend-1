@@ -1,3 +1,24 @@
+<h1>Products</h1>
+
+<h2>Add new product</h2>
+
+<form action="/api/products" method="post" id="formAddProduct">
+    <label for="">Title</label><br>
+    <input type="text" name="title"><br><br>
+    <label for="">Description</label><br>
+    <input type="text" name="description"><br><br>
+    <label for="">Code</label><br>
+    <input type="text" name="code"><br><br>
+    <label for="">Price</label><br>
+    <input type="text" name="price"><br><br>
+    <label for="">Stock</label><br>
+    <input type="text" name="stock"><br><br>
+    <label for="">Category</label><br>
+    <input type="text" name="category"><br><br>
+    <input type="submit" name="" id="">
+</form>
+
+<h2>List of products</h2>
 <div id="productsList"></div>
 
 <script src="socket.io/socket.io.js"></script>
