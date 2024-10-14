@@ -12,7 +12,7 @@ socket.on('productsList', products=>{
                     <p>Price: $${prod.price}</p>
                     <p>Stock: ${prod.stock}</p>
                     <p>Category: ${prod.category}</p>
-                    <button class="btn-delete">Eliminar</button>
+                    <button class="btn-delete">Delete</button>
                 </div>
                 `
     });
