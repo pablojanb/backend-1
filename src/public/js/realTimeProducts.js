@@ -12,9 +12,47 @@ socket.on('productsList', products=>{
                     <p>Price: $${prod.price}</p>
                     <p>Stock: ${prod.stock}</p>
                     <p>Category: ${prod.category}</p>
-                    <button class="btn-delete">Delete</button>
+                    <button class="btn-delete" id="${prod.id} ">Delete</button>
                 </div>
                 `
     });
     productsList.innerHTML = prods
+
+    const btnDeleteProduct = document.querySelectorAll(".btn-delete")
+
+    btnDeleteProduct.forEach(e=>{
+        e.addEventListener("click", (evt)=>{
+            const idProduct = parseInt(evt.target.id)
+            socket.emit('deleting-product', idProduct)
+        })
+    })
+})
+
+const btnForm = document.getElementById("btnForm")
+const inputs = document.querySelectorAll(".input")
+
+let newProduct = {}
+
+inputs.forEach(input=>{
+    input.addEventListener("change", (e)=>{
+        newProduct = {...newProduct, [e.target.name]: e.target.value
+        }
+    })
+})
+
+
+const hidden = document.querySelector('.hidden')
+
+btnForm.addEventListener("click", (e)=>{
+    e.preventDefault()
+    if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || !newProduct.stock || !newProduct.category) {
+        hidden.classList.remove('hidden')
+    } else {
+        hidden.classList.add('hidden')
+        socket.emit('new-product', newProduct)
+        newProduct = {}
+        inputs.forEach(input=>{
+            input.value = ""
+        })
+    }
 })

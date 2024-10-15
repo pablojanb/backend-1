@@ -87,3 +87,11 @@ h2 {
     color: #f3ca71;
     border-color: #dc143c;
 }
+
+.hidden {
+    display: none;
+}
+
+.err-data{
+    color: #ff0000;
+}

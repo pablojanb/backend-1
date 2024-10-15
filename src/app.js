@@ -33,4 +33,12 @@ const prodManag = new ProductManager()
 io.on('connection', async (socket)=>{
     const products = await prodManag.getProducts()
     socket.emit('productsList', products)
+
+    socket.on('deleting-product', id=>{
+        prodManag.deleteProduct(id)
+    })
+
+    socket.on('new-product', product=>{
+        prodManag.setProduct(product)
+    })
 })

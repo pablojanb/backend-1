@@ -4,18 +4,19 @@
 
 <form action="/api/products" method="post" id="formAddProduct">
     <label for="">Title</label><br>
-    <input type="text" name="title"><br><br>
+    <input type="text" name="title" class="input"><br><br>
     <label for="">Description</label><br>
-    <input type="text" name="description"><br><br>
+    <input type="text" name="description" class="input"><br><br>
     <label for="">Code</label><br>
-    <input type="text" name="code"><br><br>
+    <input type="text" name="code" class="input"><br><br>
     <label for="">Price</label><br>
-    <input type="text" name="price"><br><br>
+    <input type="text" name="price" class="input"><br><br>
     <label for="">Stock</label><br>
-    <input type="text" name="stock"><br><br>
+    <input type="text" name="stock" class="input"><br><br>
     <label for="">Category</label><br>
-    <input type="text" name="category"><br><br>
-    <button type="input" class="btn-form">Add</button>
+    <input type="text" name="category" class="input"><br><br>
+    <p class="hidden err-data">Incomplete data</p><br>
+    <button type="input" class="btn-form" id="btnForm">Add</button>
 </form>
 
 <h2>List of products</h2>
