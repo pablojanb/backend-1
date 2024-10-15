@@ -29,19 +29,19 @@ h2 {
     margin: 30px;
 }
 
-#formAddProduct {
+.formAddProduct {
     text-align: center;
     font-size: 20px;
 }
 
-#formAddProduct input{
+.formAddProduct input{
     background-color: #ffffff;
     border: 2px solid #dc143c;
     height: 25px;
     width: 400px;
 }
 
-#formAddProduct .btn-form {
+.formAddProduct .btn-form {
     border: 2px solid #dc143c;
     font-size: 20px;
     background-color: #f3ca71;
@@ -50,7 +50,7 @@ h2 {
     transition: .3s;
 }
 
-#formAddProduct .btn-form:hover {
+.formAddProduct .btn-form:hover {
     background-color: #dc143c;
     color: #f3ca71;
     border-color: #dc143c;
