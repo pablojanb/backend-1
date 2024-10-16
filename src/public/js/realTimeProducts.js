@@ -48,6 +48,8 @@ btnForm.addEventListener("click", (e)=>{
     if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || !newProduct.stock || !newProduct.category) {
         hidden.classList.remove('hidden')
     } else {
+        newProduct.stock = parseInt(newProduct.stock)
+        newProduct.price = parseInt(newProduct.price)
         hidden.classList.add('hidden')
         socket.emit('new-product', newProduct)
         newProduct = {}

@@ -38,12 +38,12 @@
     "thumbnails": []
   },
   {
-    "id": 6,
+    "id": 7,
     "title": "firebird v",
     "description": "really awesome guitar",
     "code": "GUIT236",
-    "price": "2500",
-    "stock": "6",
+    "price": 2500,
+    "stock": 6,
     "category": "instrument",
     "status": true,
     "thumbnails": []
