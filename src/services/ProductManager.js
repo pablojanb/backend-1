@@ -4,18 +4,22 @@ import __dirname from '../utils.js'
 export default class ProductManager {
 
 
-    getProducts(limit, page, price, category) {
+    getProducts(limit, page, category, sort) {
         if (!limit) limit = 10
         if (!page) page = 1
-
-        if (price) {
-            //TO DO sort by price
-        }
         
         if (category) {
-            return productsModel.paginate({category: category}, {limit: limit, page: page})
+            if (sort) {
+                //TO DO sort by price
+            } else {
+                return productsModel.paginate({category: category}, {limit: limit, page: page, lean:true})
+            }
         } else {
-            return productsModel.paginate({}, {limit: limit, page: page})
+            if (sort) {
+                //TO DO sort by price
+            } else {
+                return productsModel.paginate({}, {limit: limit, page: page, lean:true})
+            }
         }
     }
 

@@ -12,7 +12,8 @@ router.get('/', async (req, res) => {
         const page = parseInt(req.query.page)
         const price = parseInt(req.query.price)
         const category = req.query.category
-        const products = await prodManager.getProducts(limit, page, price, category)
+        const sort = parseInt(req.query.sort)
+        const products = await prodManager.getProducts(limit, page, category, sort)
         res.send(products)
     } catch (err) {
         console.log(`Error ${err}`)
