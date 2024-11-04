@@ -9,7 +9,10 @@ const prodManager = new ProductManager()
 router.get('/', async (req, res) => {
     try {
         const limit = parseInt(req.query.limit)
-        const products = await prodManager.getProducts(limit)
+        const page = parseInt(req.query.page)
+        const price = parseInt(req.query.price)
+        const category = req.query.category
+        const products = await prodManager.getProducts(limit, page, price, category)
         res.send(products)
     } catch (err) {
         console.log(`Error ${err}`)
@@ -18,12 +21,12 @@ router.get('/', async (req, res) => {
 
 router.get('/:pid', async (req, res) => {
     try {
-        const prodId = parseInt(req.params.pid)
+        const prodId = req.params.pid
         const product = await prodManager.getProduct(prodId)
+        res.send(product)
 
-        product && res.send(product)
-        !product && res.status(404).send({error: 'product not found' })
     } catch (err) {
+        res.status(404).send({error: 'product not found' })
         console.log(`Error ${err}`)
     }
 })
@@ -53,15 +56,13 @@ router.post('/', uploader.single('img'), async (req, res) => {
 router.put('/:pid', uploader.single('img'), async (req, res) => {
     
     try {
-        const productId = parseInt(req.params.pid)
-        const img = req.file
+        const productId = req.params.pid
         const modifiedProduct = req.body
-        const newProduct = await prodManager.editProduct(productId, modifiedProduct, img)
+        const newProduct = await prodManager.editProduct(productId, modifiedProduct)
+        res.status(201).send(newProduct)
 
-        newProduct && res.status(201).send(newProduct)
-        !newProduct && res.status(404).send({error: 'product not found'})
     } catch(err) {
-        console.log(`Error: ${err}`)
+        res.status(404).send({error: 'product not found'})
     }
 
 })
@@ -69,12 +70,12 @@ router.put('/:pid', uploader.single('img'), async (req, res) => {
 router.delete('/:pid', async (req, res) => {
 
     try {
-        const prodId = parseInt(req.params.pid)
+        const prodId = req.params.pid
         const deletedProd = await prodManager.deleteProduct(prodId)
 
         deletedProd && res.send(deletedProd)
-        !deletedProd && res.status(404).send({error: `product not found`})
     } catch(err) {
+        res.status(404).send({error: `product not found`})
         console.log(`Error: ${err}`)
     }
 

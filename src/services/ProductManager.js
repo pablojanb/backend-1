@@ -1,40 +1,31 @@
-import fs from 'fs/promises'
-import path from 'path'
-import { generateId } from '../utils.js'
-import __dirname from '../utils.js'
-
-const pathProductsFile = path.resolve('data', 'products.json')
+import productsModel from "../models/products.model.js"
 
 export default class ProductManager {
-    constructor(){
-        this.products = []
-        this.init()
-    }
 
-    async init() {
-        try {
-            const data = await fs.readFile(pathProductsFile, 'utf8')
-            this.products = JSON.parse(data)
-        } catch {
-            this.products = []
+
+    getProducts(limit, page, price, category) {
+        if (!limit) limit = 10
+        if (!page) page = 1
+
+        if (price) {
+            //TO DO sort by price
         }
-    }
-
-    getProducts(limit) {
-        if (limit) {
-            return this.products.slice(0, limit)
+        
+        if (category) {
+            return productsModel.paginate({category: category}, {limit: limit, page: page})
         } else {
-            return this.products
+            return productsModel.paginate({}, {limit: limit, page: page})
         }
     }
 
     getProduct(id) {
-        return this.products.find(prod => prod.id === id)
+        return productsModel.findOne({_id: id})
     }
 
     setProduct(product, img) {
+
+
         const newProduct = {
-            id: generateId(this.products),
             ...product,
             status: true,
         }
@@ -45,56 +36,18 @@ export default class ProductManager {
             newProduct.thumbnails = []
         }
         
-        this.products.push(newProduct)
-
-        this.setProductsFile()
+        productsModel.create(newProduct)
         return newProduct
 
     }
 
-    setProductsFile() {
-        fs.writeFile(pathProductsFile, JSON.stringify(this.products, null, 2))
-    }
+    editProduct(id, modifiedProduct) {
 
-    editProduct(id, modifiedProduct, img) {
-        const product = this.products.find(prod => prod.id === id)
-
-        const productIndex = this.products.findIndex(prod => prod.id === id)
-
-        if (productIndex < 0) {
-            return null
-        }
-
-        if (img) {
-            this.products[productIndex] = {
-                id: id,
-                ...product,
-                ...modifiedProduct
-            }
-            this.products[productIndex].thumbnails.push(`${__dirname}/public/img/${img.filename}`)
-        } else {
-            this.products[productIndex] = {
-                id: id,
-                ...product,
-                ...modifiedProduct
-            }
-        }
-
-        this.setProductsFile()
-        return this.products[productIndex]
+        return productsModel.updateOne({_id: id}, modifiedProduct)
     }
 
 
     deleteProduct(id) {
-        const deletedProd = this.products.filter(prod => prod.id === id)
-        const newProducts = this.products.filter(prod => prod.id !== id)
-
-        if (this.products.length === newProducts.length) {
-            return null
-        } else {
-            this.products = newProducts
-            this.setProductsFile()
-            return deletedProd
-        }
+        return productsModel.deleteOne({_id: id})
     }
 }

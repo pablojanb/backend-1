@@ -1,63 +1,38 @@
-import fs from 'fs/promises'
-import path from 'path'
-import { generateId } from '../utils.js'
-import ProductManager from './ProductManager.js'
-
-
-const prodManager = new ProductManager()
-const pathCartsFile = path.resolve('data', 'carts.json')
+import cartsModel from '../models/carts.model.js'
+import productsModel from '../models/products.model.js'
 
 export default class CartManager {
-    constructor() {
-        this.carts = []
-        this.init()
-    }
-
-    async init() {
-        try {
-            const data = await fs.readFile(pathCartsFile, 'utf8')
-            this.carts = JSON.parse(data)
-        } catch (err) {
-            this.carts = []
-        }
-    }
 
     addCart() {
         const newCart = {
-            id: generateId(this.carts),
             products: []
         }
-        this.carts.push(newCart)
-        this.setCartsFile()
+        cartsModel.create(newCart)
         return newCart
     }
 
-    setCartsFile() {
-        fs.writeFile(pathCartsFile, JSON.stringify(this.carts, null, 2))
-    }
-
     getCart(id) {
-        return this.carts.find(cart => cart.id === id)
+        return cartsModel.findOne({_id: id})
     }
 
-    setProductInCart(prodId, cartId) {
-
-        const products = prodManager.getProducts()
-        const product = products.find(prod => prod.id === prodId)
-        const cart = this.carts.find(cart => cart.id === cartId)
+    async addProductToCart(prodId, cartId) {
+        const cart = await cartsModel.findOne({_id: cartId})
+        const product = await productsModel.findOne({_id: prodId})
 
         if (!cart || !product) {
             return null
         }
 
-        const alreadyInCart = cart.products.findIndex(prod => prod.id === prodId)
+        const alreadyInCart = cart.products.findIndex(prod => prod.product === prodId)
 
         if (alreadyInCart < 0) {
-            cart.products.push({ id: prodId, quantity: 1 })
+            cart.products.push({product: prodId, quantity: 1})
         } else {
             cart.products[alreadyInCart].quantity += 1
         }
-        this.setCartsFile()
-        return { id: prodId, quantity: 1 }
+
+        await cartsModel.updateOne({_id: cartId},{products: cart.products})
+
+        return { product: prodId, quantity: 1 }
     }
 }

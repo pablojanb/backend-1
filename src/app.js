@@ -6,6 +6,7 @@ import cartsRouter from './routes/carts.routes.js'
 import viewsRouter from './routes/views.routes.js'
 import __dirname from './utils.js'
 import ProductManager from './services/ProductManager.js'
+import mongoose from 'mongoose'
 
 const app = express()
 const PORT = 8080
@@ -42,3 +43,16 @@ io.on('connection', async (socket)=>{
         prodManag.setProduct(product)
     })
 })
+
+const pathDB = 'mongodb://localhost:27017/music_store?retryWrites=true&w=majority'
+
+const connectionDB = async()=>{
+    try {
+        await mongoose.connect(pathDB)
+        console.log(`Connection to DB succesful`)
+    } catch (error) {
+        console.log(`Cannot connect to DB, error: ${error}`)
+    }
+}
+
+connectionDB()

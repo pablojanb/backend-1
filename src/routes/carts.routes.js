@@ -18,28 +18,26 @@ router.post('/', async (req, res) => {
 router.get('/:cid', async (req, res) => {
 
     try {
-        const cartId = parseInt(req.params.cid)
+        const cartId = req.params.cid
         const cart = await cartManag.getCart(cartId)
         
-        cart && res.send(cart)
-        !cart && res.status(404).send({ error: 'cart not found' })
+        res.send(cart)
     } catch (err) {
-        console.log(`Error: ${err}`)
+        res.status(404).send({ error: 'cart not found' })
     }
 })
 
 router.post('/:cid/product/:pid', async (req, res) => {
 
     try {
-        const cartId = parseInt(req.params.cid)
-        const prodId = parseInt(req.params.pid)
+        const cartId = req.params.cid
+        const prodId = req.params.pid
 
-        const prodAdded = await cartManag.setProductInCart(prodId, cartId)
+        const prodAdded = await cartManag.addProductToCart(prodId, cartId)
 
-        prodAdded && res.status(201).send(prodAdded)
-        !prodAdded && res.status(400).send({error: 'invalid data'})
+        res.status(201).send(prodAdded)
     } catch(err) {
-        console.log(`Error: ${err}`)
+        res.status(400).send({error: 'invalid data'})
     }
 
 })
