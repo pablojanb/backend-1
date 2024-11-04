@@ -1,4 +1,5 @@
 import productsModel from "../models/products.model.js"
+import __dirname from '../utils.js'
 
 export default class ProductManager {
 
@@ -41,9 +42,32 @@ export default class ProductManager {
 
     }
 
-    editProduct(id, modifiedProduct) {
+    async editProduct(productId, modifiedProduct, img) {
+        try {
+            let {title,description,code,price,stock,category,status,thumbnails} = await productsModel.findOne({_id: productId})
 
-        return productsModel.updateOne({_id: id}, modifiedProduct)
+
+        let newProduct = {
+                title,
+                description,
+                code,
+                price,
+                stock,
+                category,
+                status,
+                thumbnails,
+                ...modifiedProduct
+            }
+
+            if (img) {
+                newProduct.thumbnails.push(`${__dirname}/public/img/${img.filename}`)
+            }
+            await productsModel.updateOne({_id: productId}, { $set: newProduct})
+
+        return newProduct
+        } catch (error) {
+            console.log(error)
+        }
     }
 
 

@@ -57,12 +57,15 @@ router.put('/:pid', uploader.single('img'), async (req, res) => {
     
     try {
         const productId = req.params.pid
-        const modifiedProduct = req.body
-        const newProduct = await prodManager.editProduct(productId, modifiedProduct)
-        res.status(201).send(newProduct)
+        const img = req.file
+        let modifiedProduct = req.body
+        const newProduct = await prodManager.editProduct(productId, modifiedProduct, img)
 
+        res.status(201).send(newProduct)
+        
     } catch(err) {
         res.status(404).send({error: 'product not found'})
+        console.log(`Error: ${err}`)
     }
 
 })
