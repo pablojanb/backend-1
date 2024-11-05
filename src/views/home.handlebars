@@ -1,7 +1,7 @@
 <h1>List of products</h1>
 <div class="product-list">
     {{#each products.docs}}
-    <div id="product">
+    <div class="product">
         <h2>{{this.title}}</h2>
         <p>{{this.description}}</p>
         <p>Code: {{this.code}}</p>
@@ -13,12 +13,14 @@
     {{/each}}
 </div>
 
-{{#if products.hasPrevPage}}
-<a href={{products.linkPrevPage}}><< Prev</a>
-{{/if}}
-<span>{{products.page}}</span>
-{{#if products.hasNextPage}}
-<a href={{products.linkNextPage}}>Next >></a>
-{{/if}}
+<div class="pagination">
+    {{#if products.hasPrevPage}}
+    <a href={{products.linkPrevPage}}><< Prev</a>
+    {{/if}}
+    <span>{{products.page}}</span>
+    {{#if products.hasNextPage}}
+    <a href={{products.linkNextPage}}>Next >></a>
+    {{/if}}
+</div>
 
 <script src="js/home.js"></script>

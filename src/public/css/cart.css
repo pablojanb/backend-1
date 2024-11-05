@@ -39,26 +39,3 @@ h1 {
     border: 2px solid #dc143c;
     font-size: 20px;
 }
-
-.add-to-cart-btn {
-    border: 2px solid #dc143c;
-    font-size: 20px;
-    background-color: #f3ca71;
-    color: #dc143c;
-    width: 100px;
-    transition: .3s;
-    margin: 5px;
-}
-
-.add-to-cart-btn:hover {
-    background-color: #dc143c;
-    color: #f3ca71;
-    border-color: #dc143c;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px;
-}

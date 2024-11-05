@@ -26,7 +26,7 @@ router.get('/carts/:cid', async(req, res)=>{
         return prod.product
     })
     const noEmpty = products.length > 0
-    res.render('cart', {products, noEmpty})
+    res.render('cart', {products, noEmpty, style: '/css/cart.css'})
 })
 
 router.get('/realtimeproducts', (req, res)=> {
