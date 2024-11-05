@@ -1,13 +1,14 @@
 import express from 'express'
 import ProductManager from '../services/ProductManager.js'
+import CartManager from '../services/CartManager.js'
 
 const router = express.Router()
 const prodManag = new ProductManager()
+const cartManag = new CartManager()
 
 router.get('/', async(req, res)=>{
     const limit = parseInt(req.query.limit)
     const page = parseInt(req.query.page)
-    const price = parseInt(req.query.price)
     const category = req.query.category
     const sort = parseInt(req.query.sort)
     const products = await prodManag.getProducts(limit, page, category, sort)
@@ -15,8 +16,17 @@ router.get('/', async(req, res)=>{
     const linkNextPage = products.hasNextPage ? `http://localhost:8080/?page=${products.nextPage}&limit=${limit}` : ""
     products.linkPrevPage = linkPrevPage
     products.linkNextPage = linkNextPage
-    console.log(products)
     res.render('home', {products, style: 'css/home.css'})
+})
+
+router.get('/carts/:cid', async(req, res)=>{
+    const cartId = req.params.cid
+    const cart = await cartManag.getCart(cartId)
+    const products = cart.products.map((prod)=>{
+        return prod.product
+    })
+    const noEmpty = products.length > 0
+    res.render('cart', {products, noEmpty})
 })
 
 router.get('/realtimeproducts', (req, res)=> {

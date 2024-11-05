@@ -4,45 +4,59 @@ import __dirname from '../utils.js'
 export default class ProductManager {
 
 
-    getProducts(limit, page, category, sort) {
-        if (!limit) limit = 10
-        if (!page) page = 1
-        
-        if (category) {
-            if (sort) {
-                //TO DO sort by price
+    async getProducts(limit, page, category, sort) {
+        try {
+            if (!limit) limit = 10
+            if (!page) page = 1
+            
+            if (category) {
+                if (sort) {
+                    //TO DO sort by price
+                } else {
+                    const products = await productsModel.paginate({category: category}, {limit: limit, page: page, lean:true})
+                    return products
+                }
             } else {
-                return productsModel.paginate({category: category}, {limit: limit, page: page, lean:true})
+                if (sort) {
+                    //TO DO sort by price
+                } else {
+                    const products = await productsModel.paginate({}, {limit: limit, page: page, lean:true})
+                    return products
+                }
             }
-        } else {
-            if (sort) {
-                //TO DO sort by price
-            } else {
-                return productsModel.paginate({}, {limit: limit, page: page, lean:true})
-            }
+        } catch (error) {
+            console.log(`Error: ${error}`)
         }
     }
 
-    getProduct(id) {
-        return productsModel.findOne({_id: id})
+    async getProduct(id) {
+        try {
+            const product = await productsModel.findOne({_id: id})
+            return product
+        } catch (error) {
+            console.log(`Error: ${error}`)
+        }
     }
 
-    setProduct(product, img) {
+    async setProduct(product, img) {
+        try {
+            const newProduct = {
+                ...product,
+                status: true,
+            }
+    
+            if (img) {
+                newProduct.thumbnails = [`${__dirname}/public/img/${img.filename}`]
+            } else {
+                newProduct.thumbnails = []
+            }
+            
+            productsModel.create(newProduct)
+            return newProduct
 
-
-        const newProduct = {
-            ...product,
-            status: true,
+        } catch (error) {
+            console.log(`Error: ${error}`)
         }
-
-        if (img) {
-            newProduct.thumbnails = [`${__dirname}/public/img/${img.filename}`]
-        } else {
-            newProduct.thumbnails = []
-        }
-        
-        productsModel.create(newProduct)
-        return newProduct
 
     }
 
@@ -51,17 +65,17 @@ export default class ProductManager {
             let {title,description,code,price,stock,category,status,thumbnails} = await productsModel.findOne({_id: productId})
 
 
-        let newProduct = {
-                title,
-                description,
-                code,
-                price,
-                stock,
-                category,
-                status,
-                thumbnails,
-                ...modifiedProduct
-            }
+            let newProduct = {
+                    title,
+                    description,
+                    code,
+                    price,
+                    stock,
+                    category,
+                    status,
+                    thumbnails,
+                    ...modifiedProduct
+                }
 
             if (img) {
                 newProduct.thumbnails.push(`${__dirname}/public/img/${img.filename}`)
@@ -70,12 +84,17 @@ export default class ProductManager {
 
         return newProduct
         } catch (error) {
-            console.log(error)
+            console.log(`Error: ${error}`)
         }
     }
 
 
-    deleteProduct(id) {
-        return productsModel.deleteOne({_id: id})
+    async deleteProduct(id) {
+        try {
+            const deleteProduct = await productsModel.deleteOne({_id: id})
+            return deleteProduct
+        } catch (error) {
+            console.log(`Error: ${error}`)
+        }
     }
 }

@@ -8,17 +8,17 @@
         <p>Price: ${{this.price}}</p>
         <p>Stock: {{this.stock}}</p>
         <p>Category: {{this.category}}</p>
-        <button>Add to cart</button>
+        <button class="add-to-cart-btn" id={{this._id}}>Add to cart</button>
     </div>
     {{/each}}
 </div>
 
 {{#if products.hasPrevPage}}
 <a href={{products.linkPrevPage}}><< Prev</a>
-
 {{/if}}
-
+<span>{{products.page}}</span>
 {{#if products.hasNextPage}}
 <a href={{products.linkNextPage}}>Next >></a>
-
 {{/if}}
+
+<script src="js/home.js"></script>

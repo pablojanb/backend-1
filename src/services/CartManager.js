@@ -3,81 +3,115 @@ import productsModel from '../models/products.model.js'
 
 export default class CartManager {
 
-    addCart() {
-        const newCart = {
-            products: []
+    async addCart() {
+        try {
+            const newCart = {
+                products: []
+            }
+            const cartCreated = await cartsModel.create(newCart)
+            return cartCreated
+        } catch (error) {
+            console.log(`Error: ${error}`)
         }
-        cartsModel.create(newCart)
-        return newCart
     }
 
-    getCart(id) {
-        return cartsModel.findOne({_id: id})
+    async getCart(id) {
+        try {
+            const cart = await cartsModel.findOne({_id: id}).lean()
+            return cart
+        } catch (error) {
+            console.log(`Error: ${error}`)
+        }
     }
 
     async addProductToCart(prodId, cartId) {
-        const cart = await cartsModel.findOne({_id: cartId})
-        const product = await productsModel.findOne({_id: prodId})
+        try {
+            const cart = await cartsModel.findOne({_id: cartId})
+            const product = await productsModel.findOne({_id: prodId})
 
-        if (!cart || !product) {
-            return null
+            if (!cart || !product) {
+                return null
+            }
+          
+            const alreadyInCart = cart.products.findIndex(prod => prod.product.id === prodId)
+      
+            if (alreadyInCart < 0) {
+            
+                cart.products.push({product: prodId, quantity: 1})
+               
+            } else {
+            
+                cart.products[alreadyInCart].quantity += 1
+            }
+    
+            await cartsModel.updateOne({_id: cartId},{products: cart.products})
+    
+            return { product: prodId, quantity: 1 }
+        } catch (error) {
+            console.log(`Error: ${error}`)
         }
-
-        const alreadyInCart = cart.products.findIndex(prod => prod.product === prodId)
-
-        if (alreadyInCart < 0) {
-            cart.products.push({product: prodId, quantity: 1})
-        } else {
-            cart.products[alreadyInCart].quantity += 1
-        }
-
-        await cartsModel.updateOne({_id: cartId},{products: cart.products})
-
-        return { product: prodId, quantity: 1 }
     }
 
     async deleteProduct(prodId, cartId) {
-        const cart = await cartsModel.findOne({_id: cartId})
-        const product = await productsModel.findOne({_id: prodId})
+        try {
+            const cart = await cartsModel.findOne({_id: cartId})
+            const product = await productsModel.findOne({_id: prodId})
 
-        if (!cart || !product) {
-            return null
+            if (!cart || !product) {
+                return null
+            }
+
+            const newCart = cart.products.filter(prod=>prod.product.id !== prodId)
+            await cartsModel.updateOne({_id: cartId},{products: newCart})
+            
+            return product
+        } catch (error) {
+            console.log(`Error: ${error}`)
         }
-        
-        const newCart = cart.products.filter(prod=>prod.product !== prodId)
-        await cartsModel.updateOne({_id: cartId},{products: newCart})
-        return product
     }
 
     async updateCart(updatedCart, cartId) {
-        const cart = await cartsModel.findOne({_id: cartId})
-        if (!cart) {
-            return null
+        try {
+            const cart = await cartsModel.findOne({_id: cartId})
+            if (!cart) {
+                return null
+            }
+    
+            await cartsModel.updateOne({_id: cartId}, {products: updatedCart})
+            return updatedCart
+        } catch (error) {
+            console.log(`Error: ${error}`)
         }
-
-        await cartsModel.updateOne({_id: cartId}, {products: updatedCart})
-        return updatedCart
     }
 
     async updateQuantity(quantity, cartId, prodId) {
-        const cart = await cartsModel.findOne({_id: cartId})
-        const product = await productsModel.findOne({_id: prodId})
+        try {
+            const cart = await cartsModel.findOne({_id: cartId})
+            const product = await productsModel.findOne({_id: prodId})
+            
 
-        if (!cart || !product || quantity < 0) {
-            return null
-        }
+            if (!cart || !product || quantity < 0) {
+                return null
+            }
+        
+            const productToUpdate = cart.products.findIndex(prod=>prod.product.id === prodId)
     
-        const productToUpdate = cart.products.findIndex(prod=>prod.product === prodId)
-
-        cart.products[productToUpdate].quantity = quantity
-
-        await cartsModel.updateOne({_id: cartId},{products: cart.products})
-
-        return quantity
+            cart.products[productToUpdate].quantity = quantity
+    
+            await cartsModel.updateOne({_id: cartId},{products: cart.products})
+    
+            return quantity
+        } catch (error) {
+            console.log(`Error: ${error}`)
+        }
     }
     
     async deleteProducts(cartId){
-        await cartsModel.updateOne({_id: cartId},{products: []})
-        return {products: []}
+        try {
+            await cartsModel.updateOne({_id: cartId},{products: []})
+            return {products: []}
+        } catch (error) {
+            console.log(`Error: ${error}`)
+        }
     }
 }

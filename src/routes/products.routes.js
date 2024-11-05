@@ -10,7 +10,6 @@ router.get('/', async (req, res) => {
     try {
         const limit = parseInt(req.query.limit)
         const page = parseInt(req.query.page)
-        const price = parseInt(req.query.price)
         const category = req.query.category
         const sort = parseInt(req.query.sort)
         const products = await prodManager.getProducts(limit, page, category, sort)

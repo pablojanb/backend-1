@@ -9,7 +9,8 @@ const cartsSchema = new mongoose.Schema({
                 product: {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'products'
-                }
+                },
+                quantity: Number
             }
         ],
         default: []
@@ -19,7 +20,6 @@ const cartsSchema = new mongoose.Schema({
 cartsSchema.pre('findOne', function(){
     this.populate('products.product')
 })
-
 const cartsModel = mongoose.model(collectionName, cartsSchema)
 
 export default cartsModel
