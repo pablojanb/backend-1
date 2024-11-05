@@ -22,9 +22,8 @@ router.get('/', async(req, res)=>{
 router.get('/carts/:cid', async(req, res)=>{
     const cartId = req.params.cid
     const cart = await cartManag.getCart(cartId)
-    const products = cart.products.map((prod)=>{
-        return prod.product
-    })
+    const products = cart.products
+    
     const noEmpty = products.length > 0
     res.render('cart', {products, noEmpty, style: '/css/cart.css'})
 })
