@@ -6,6 +6,7 @@ import cartsRouter from './routes/carts.routes.js'
 import viewsRouter from './routes/views.routes.js'
 import __dirname from './utils.js'
 import ProductManager from './services/ProductManager.js'
+import CartManager from './services/CartManager.js'
 import mongoose from 'mongoose'
 
 const app = express()
@@ -30,9 +31,11 @@ const httpServer = app.listen(PORT, ()=>{
 const io = new Server(httpServer)
 
 const prodManag = new ProductManager()
+const cartManag = new CartManager()
 
 io.on('connection', async (socket)=>{
     const products = await prodManag.getProducts()
+    
     socket.emit('productsList', products)
 
     socket.on('deleting-product', id=>{
@@ -42,6 +45,16 @@ io.on('connection', async (socket)=>{
     socket.on('new-product', product=>{
         prodManag.setProduct(product)
     })
+    
+    socket.on('add-to-cart', async(obj)=>{
+        await cartManag.addProductToCart(obj.prodId, obj.newCart._id)
+    })
+    
+    socket.on('createCart', async(msg)=>{
+        const cart = await cartManag.addCart()
+        socket.emit('cart', cart)
+    })
+
 })
 
 const pathDB = 'mongodb://localhost:27017/music_store?retryWrites=true&w=majority'
