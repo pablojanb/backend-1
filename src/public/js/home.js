@@ -9,7 +9,7 @@ if (!newCart) {
     socket.emit('createCart', 'msg')
 } else {
     link_cart.innerHTML = `
-                        <a href="http://localhost:8080/carts/${newCart._id}">Cart</a>
+                        <a class="link_cart" href="http://localhost:8080/carts/${newCart._id}"><i class="fa-solid fa-cart-shopping"></i></a>
                         `
 }
 
@@ -17,7 +17,7 @@ socket.on('cart', cart=>{
     newCart = cart
     localStorage.setItem('cart', JSON.stringify(newCart))
     link_cart.innerHTML = `
-                        <a href="http://localhost:8080/carts/${newCart._id}">Cart</a>
+                        <a class="link_cart" href="http://localhost:8080/carts/${newCart._id}"><i class="fa-solid fa-cart-shopping"></i></a>
                         `
 })
 

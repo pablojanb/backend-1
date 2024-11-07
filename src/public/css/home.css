@@ -18,6 +18,22 @@
     font-family: "Roboto Condensed", sans-serif;
 }
 
+.nav {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+    font-size: 20px;
+}
+
+.link_cart {
+    color: #dc143c;
+}
+
+.link_cart:hover {
+    color: #dc143c;
+    transform: scale(1.2);
+}
+
 h1 {
     text-align: center;
     color: #dc143c;

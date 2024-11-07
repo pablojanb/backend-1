@@ -39,3 +39,7 @@ h1 {
     border: 2px solid #dc143c;
     font-size: 20px;
 }
+
+.emptyCart {
+    color: #000000;
+}

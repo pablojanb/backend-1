@@ -28,24 +28,16 @@ export default class CartManager {
         try {
             const cart = await cartsModel.findOne({_id: cartId})
             const product = await productsModel.findOne({_id: prodId})
-
             if (!cart || !product) {
-                return null
+                return undefined
             }
-          
             const alreadyInCart = cart.products.findIndex(prod => prod.product.id === prodId)
-      
             if (alreadyInCart < 0) {
-            
                 cart.products.push({product: prodId, quantity: 1})
-               
             } else {
-            
                 cart.products[alreadyInCart].quantity += 1
             }
-    
             await cartsModel.updateOne({_id: cartId},{products: cart.products})
-    
             return { product: prodId, quantity: 1 }
         } catch (error) {
             console.log(`Error: ${error}`)
@@ -56,14 +48,11 @@ export default class CartManager {
         try {
             const cart = await cartsModel.findOne({_id: cartId})
             const product = await productsModel.findOne({_id: prodId})
-
             if (!cart || !product) {
-                return null
+                return undefined
             }
-
             const newCart = cart.products.filter(prod=>prod.product.id !== prodId)
             await cartsModel.updateOne({_id: cartId},{products: newCart})
-            
             return product
         } catch (error) {
             console.log(`Error: ${error}`)
@@ -74,9 +63,8 @@ export default class CartManager {
         try {
             const cart = await cartsModel.findOne({_id: cartId})
             if (!cart) {
-                return null
+                return undefined
             }
-    
             await cartsModel.updateOne({_id: cartId}, {products: updatedCart})
             return updatedCart
         } catch (error) {
@@ -88,19 +76,13 @@ export default class CartManager {
         try {
             const cart = await cartsModel.findOne({_id: cartId})
             const product = await productsModel.findOne({_id: prodId})
-            
-
-            if (!cart || !product || quantity < 0) {
-                return null
+            if (!cart || !product || quantity < 1) {
+                return undefined
             }
-        
             const productToUpdate = cart.products.findIndex(prod=>prod.product.id === prodId)
-    
             cart.products[productToUpdate].quantity = quantity
-    
             await cartsModel.updateOne({_id: cartId},{products: cart.products})
-    
-            return quantity
+            return { quantity }
         } catch (error) {
             console.log(`Error: ${error}`)
         }

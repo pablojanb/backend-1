@@ -23,14 +23,3 @@ export const uploader = multer({
         console.log(`Error: ${err}`)
     }
 })
-
-
-export const generateId = (arr) => {
-    let id
-    if (arr.length > 0) {
-        id = arr[arr.length - 1].id + 1
-    } else {
-        id = 1
-    }
-    return id
-}
