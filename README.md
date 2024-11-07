@@ -6,22 +6,22 @@ Este proyecto consiste en un sistema de gestión de productos y carritos de comp
 
 ## Funcionalidades
 
-**CRUD de productos:** Crear, leer, actualizar y eliminar productos en el sistema.
-**CRUD de carritos:** Crear, leer, actualizar y eliminar carritos.
-**Paginación y filtros:** El endpoint GET de productos soporta paginación (por limit y page), filtrado por consultas y ordenamiento por precio.
-**Vista en tiempo real:** Utiliza Socket.io para mostrar la lista de productos actualizada en tiempo real en la interfaz de usuario.
-**Carga de archivos:** Soporta la carga de imágenes de productos a través de Multer.
-**Carrito dinámico:** Los productos pueden ser agregados o eliminados de un carrito, y la cantidad de unidades de un producto en el carrito puede ser actualizada.
+- **CRUD de productos:** Crear, leer, actualizar y eliminar productos en el sistema.
+- **CRUD de carritos:** Crear, leer, actualizar y eliminar carritos.
+- **Paginación y filtros:** El endpoint GET de productos soporta paginación (por limit y page), filtrado por consultas y ordenamiento por precio.
+- **Vista en tiempo real:** Utiliza Socket.io para mostrar la lista de productos actualizada en tiempo real en la interfaz de usuario.
+- **Carga de archivos:** Soporta la carga de imágenes de productos a través de Multer.
+- **Carrito dinámico:** Los productos pueden ser agregados o eliminados de un carrito, y la cantidad de unidades de un producto en el carrito puede ser actualizada.
 
 ## Tecnologías
 
-**Node.js:** Para la ejecución del servidor.
-**Express:** Para la creación de APIs RESTful.
-**MongoDB:** Para la persistencia de datos.
-**Mongoose:** Para interactuar con MongoDB desde el servidor.
-**Handlebars:** Para renderizar vistas dinámicas del lado del cliente.
-**Multer:** Middleware para manejar la carga de archivos.
-**Socket.io:** Para la comunicación en tiempo real entre cliente y servidor.
+- **Node.js:** Para la ejecución del servidor.
+- **Express:** Para la creación de APIs RESTful.
+- **MongoDB:** Para la persistencia de datos.
+- **Mongoose:** Para interactuar con MongoDB desde el servidor.
+- **Handlebars:** Para renderizar vistas dinámicas del lado del cliente.
+- **Multer:** Middleware para manejar la carga de archivos.
+- **Socket.io:** Para la comunicación en tiempo real entre cliente y servidor.
 
 ## Instalación
 
