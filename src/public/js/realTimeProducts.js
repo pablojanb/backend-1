@@ -3,7 +3,7 @@ const socket = io()
 socket.on('productsList', products=>{
     const productsList = document.getElementById('productsList')
     let prods = ''
-    products.forEach(prod => {
+    products.docs.forEach(prod => {
         prods += `
                 <div class="product">
                     <h3>${prod.title}</h3>
@@ -12,7 +12,7 @@ socket.on('productsList', products=>{
                     <p>Price: $${prod.price}</p>
                     <p>Stock: ${prod.stock}</p>
                     <p>Category: ${prod.category}</p>
-                    <button class="btn-delete" id="${prod.id} ">Delete</button>
+                    <button class="btn-delete" id="${prod.id}">Delete</button>
                 </div>
                 `
     });
@@ -22,7 +22,7 @@ socket.on('productsList', products=>{
 
     btnDeleteProduct.forEach(e=>{
         e.addEventListener("click", (evt)=>{
-            const idProduct = parseInt(evt.target.id)
+            const idProduct = evt.target.id
             socket.emit('deleting-product', idProduct)
         })
     })

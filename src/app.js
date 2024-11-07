@@ -35,15 +35,18 @@ const cartManag = new CartManager()
 
 io.on('connection', async (socket)=>{
     const products = await prodManag.getProducts()
-    
     socket.emit('productsList', products)
 
-    socket.on('deleting-product', id=>{
-        prodManag.deleteProduct(id)
+    socket.on('deleting-product', async(id)=>{
+        await prodManag.deleteProduct(id)
+        const products = await prodManag.getProducts()
+        socket.emit('productsList', products)
     })
 
-    socket.on('new-product', product=>{
-        prodManag.setProduct(product)
+    socket.on('new-product', async(product)=>{
+        await prodManag.setProduct(product)
+        const products = await prodManag.getProducts()
+        socket.emit('productsList', products)
     })
     
     socket.on('add-to-cart', async(obj)=>{
