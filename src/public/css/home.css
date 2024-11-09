@@ -78,3 +78,7 @@ h1 {
     gap: 10px;
     margin: 10px;
 }
+
+.emptyPage {
+    color: #000000;
+}

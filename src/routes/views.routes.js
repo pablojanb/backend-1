@@ -12,10 +12,37 @@ router.get('/', async(req, res)=>{
     const category = req.query.category
     const sort = parseInt(req.query.sort)
     const products = await prodManag.getProducts(limit, page, category, sort)
-    const linkPrevPage = products.hasPrevPage ? `http://localhost:8080/?page=${products.prevPage}&limit=${limit}` : ""
-    const linkNextPage = products.hasNextPage ? `http://localhost:8080/?page=${products.nextPage}&limit=${limit}` : ""
+    let linkPrevPage
+    if (products.hasPrevPage) {
+        if (category !== undefined && (sort === 1 || sort === -1)) {
+            linkPrevPage = `http://localhost:8080/?page=${products.prevPage}&limit=${limit}&category=${category}&sort=${sort}`
+        } else if (category !== undefined) {
+            linkPrevPage = `http://localhost:8080/?page=${products.prevPage}&limit=${limit}&category=${category}`
+        } else if ((sort === 1 || sort === -1)) {
+            linkPrevPage = `http://localhost:8080/?page=${products.prevPage}&limit=${limit}&sort=${sort}`
+        } else {
+            linkPrevPage = `http://localhost:8080/?page=${products.prevPage}&limit=${limit}`
+        }
+    } else {
+        linkPrevPage = ''
+    }
+    let linkNextPage
+    if (products.hasNextPage) {
+        if (category !== undefined && (sort === 1 || sort === -1)) {
+            linkNextPage = `http://localhost:8080/?page=${products.nextPage}&limit=${limit}&category=${category}&sort=${sort}`
+        } else if (category !== undefined) {
+            linkNextPage = `http://localhost:8080/?page=${products.nextPage}&limit=${limit}&category=${category}`
+        } else if ((sort === 1 || sort === -1)) {
+            linkNextPage = `http://localhost:8080/?page=${products.nextPage}&limit=${limit}&sort=${sort}`
+        } else {
+            linkNextPage = `http://localhost:8080/?page=${products.nextPage}&limit=${limit}`
+        }
+    } else {
+        linkNextPage = ''
+    }
     products.linkPrevPage = linkPrevPage
     products.linkNextPage = linkNextPage
+    products.isValid = !(page <=0 || page > products.totalPages)
     res.render('home', {products, style: 'css/home.css'})
 })
 
