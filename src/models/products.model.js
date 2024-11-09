@@ -9,7 +9,10 @@ const productsSchema = new mongoose.Schema({
     code: String,
     price: Number,
     stock: Number,
-    category: String,
+    category: {
+        type: String,
+        enum: ["instrument", "accesory"]
+    },
     status: Boolean,
     thumbnails: {
         type: [],

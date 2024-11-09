@@ -30,6 +30,7 @@ socket.on('productsList', products=>{
 
 const btnForm = document.getElementById("btnForm")
 const inputs = document.querySelectorAll(".input")
+const category = document.getElementById("category")
 
 let newProduct = {}
 
@@ -40,16 +41,16 @@ inputs.forEach(input=>{
     })
 })
 
-
 const hidden = document.querySelector('.hidden')
 
 btnForm.addEventListener("click", (e)=>{
     e.preventDefault()
-    if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || !newProduct.stock || !newProduct.category) {
+    newProduct.category = category.value
+    newProduct.stock = parseInt(newProduct.stock)
+    newProduct.price = parseInt(newProduct.price)
+    if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || !newProduct.stock || !newProduct.category || isNaN(newProduct.stock) || isNaN(newProduct.stock)) {
         hidden.classList.remove('hidden')
     } else {
-        newProduct.stock = parseInt(newProduct.stock)
-        newProduct.price = parseInt(newProduct.price)
         hidden.classList.add('hidden')
         socket.emit('new-product', newProduct)
         newProduct = {}

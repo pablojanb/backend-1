@@ -8,7 +8,7 @@ export default class ProductManager {
             if (!limit) limit = 10
             if (!page) page = 1
             if (category) {
-                if (sort) {
+                if (sort === 1 || sort === -1) {
                     const products = await productsModel.paginate({category: category}, {limit: limit, page: page, lean:true, sort: {price: sort}})
                     return products
                 } else {
@@ -16,7 +16,7 @@ export default class ProductManager {
                     return products
                 }
             } else {
-                if (sort) {
+                if (sort === 1 || sort === -1) {
                     const products = await productsModel.paginate({}, {limit: limit, page: page, lean:true, sort: {price: sort}})
                     return products
                 } else {
