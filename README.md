@@ -29,11 +29,11 @@ Para ejecutar esta aplicación en tu entorno local, sigue los siguientes pasos:
 
 1. **Clona el repositorio:**
 
-`git clone https://github.com/pablojanb/entregaFinalJankowski.git`
+`git clone https://github.com/pablojanb/backend-1.git`
 
 2. **Navega a la carpeta del proyecto:**
 
-`cd entregaFinalJankowski`
+`cd backend-1`
 
 3. **Instala las dependencias:**
 
